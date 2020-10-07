@@ -1,10 +1,8 @@
 def clos(w):
     w.close()
 
-
 def bbbot(x):
     x = True
-
 
 from graphics import *
 from keyboard import *
@@ -55,7 +53,7 @@ mat.draw(w)
 
 # Graphics
 while mai:
-    if is_pressed('Up'):
+    if is_pressed('t'):
         for j in range(-n, n):
             # y2[j] = j*150/n
             y2 = round(350 + j * 150 / n)
@@ -72,7 +70,7 @@ while mai:
             ray3 = Line(Point(1200, y3), Point(1300, y4))
             ray3.setOutline("red")
             ray3.draw(w)
-    if not is_pressed('b'):
+    if is_pressed('b'):
         for j in range(-n, n):
             # y2[j] = j*150/n
             y2 = round(350 + j * 150 / n)
@@ -89,7 +87,7 @@ while mai:
             ray3 = Line(Point(1200, y3), Point(1300, y4))
             ray3.setOutline("green")
             ray3.draw(w)
-    elif not is_pressed('esc'):
+    if is_pressed('Esc'):
         mai = False
         w.close()
     w.getMouse()
