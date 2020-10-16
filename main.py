@@ -1,37 +1,35 @@
-# def clos(w):
-#    w.close()
-
-
-# def bbbot(x):
-#    x = True
-
-
 from graphics import *
 from keyboard import *
 
 # Variables
-ttop = True
-bbot = True
-mai = True
-# y1 = int(input())
-# h = int(input())
-
-print("Количество лучей:")
-n = round(int(input()) / 2)
-print("Высота объекта:")
-h = int(input())
-print("Расстояние от объекта до линзы:")
-l = int(input())
-print("Расстояние от линзы до фотоаппарата:")
-d = int(input())
-print("Фокусное расстояние линзы:")
-f1 = int(input())
-print("Фокусное расстояние объектива:")
-f2 = int(input())
-print("Радиус линзы:")
-r1 = int(input())
-print("Радиус объектива:")
-r2 = int(input())
+ttop = False
+bbot = False
+n = 50
+h = 300
+l = 1000
+d = 200
+f1 = 400
+f2 = 100
+r1 = 300
+r2 = 300
+D = 100
+ray = []
+ray2 = []
+ray3 = []
+tg = []
+tg2 = []
+y2 = []
+y3 = []
+y4 = []
+for i in range(4*n+2):
+    ray.append(Line(Point(0, 0), Point(1, 1)))
+    ray2.append(Line(Point(0, 0), Point(1, 1)))
+    ray3.append(Line(Point(0, 0), Point(1, 1)))
+    tg.append(1.0)
+    tg2.append(1.0)
+    y2.append(1.0)
+    y3.append(1.0)
+    y4.append(1.0)
 
 # Window settings
 w = GraphWin("Telescope", 1368, 720)
@@ -73,9 +71,9 @@ obj = Line(Point(l + d + 10, 350 - r2), Point(l + d + 10, 350 + r2))
 obj.draw(w)
 obj1 = Line(Point(l + d, 360 - r2), Point(l + d + 10, 350 - r2))
 obj1.draw(w)
-obj2 = Line(Point(l + d + 10, 360 - r2), Point(1200, 350 - r2))
+obj2 = Line(Point(l + d + 20, 360 - r2), Point(l + d + 10, 350 - r2))
 obj2.draw(w)
-obj3 = Line(Point(l + d - 10, 340 + r2), Point(1200, 350 + r2))
+obj3 = Line(Point(l + d, 340 + r2), Point(l + d + 10, 350 + r2))
 obj3.draw(w)
 obj4 = Line(Point(l + d + 20, 340 + r2), Point(l + d + 10, 350 + r2))
 obj4.draw(w)
@@ -84,56 +82,80 @@ obj4.draw(w)
 mat = Line(Point(10 + l + d + f2, 350 - r2), Point(10 + l + d + f2, 350 + r2))
 mat.draw(w)
 
-# Keyboard
-# add_hotkey('esc', lambda: clos(w))
-# add_hotkey('<KeyPress-Up>', lambda: bbbot(ttop))
-# add_hotkey('b', lambda: bbbot(bbot))
-# on_press_key('<KeyPress-Up>', callback=ttop, suppress=True)
-# on_press_key('b', callback=bbot, suppress=True)
-# on_press_key('q', callback=mai, suppress=False)
+# Diafragm
+diaft = Line(Point(l + d, 350 - r1), Point(l + d, 350 - round(D / 2)))
+diaft.draw(w)
+diafb = Line(Point(l + d, 350 + round(D / 2)), Point(l + d, 350 + r1))
+diafb.draw(w)
 
-# Graphics
-while mai:
+# Main loop
+while True:
+    Line(Point(0, 0), Point(1, 1)).draw(w)
+
     if is_pressed('t'):
-        ttop = True
+        if not ttop:
+            ttop = True
+            for j in range(-n, n + 1):
+                if is_pressed('q'):
+                    w.close()
+                y2[j+n] = round(350 + j * r1 / n)
+                ray[j+n] = Line(Point(10, 330 - h), Point(l + 10, y2[j + n]))
+                ray[j+n].setOutline("red")
+                ray[j+n].draw(w)
+                tg[j+n] = (330 - h - y2[j+n]) / l
+                y3[j+n] = 350 - round(f1 * tg[j+n]) - round((350 - y2[j+n] - f1 * tg[j+n]) * (f1 - d) / f1)
+                tg2[j+n] = (y3[j+n] - y2[j+n]) / d
+                if (350 - y3[j+n] + 10 * tg2[j+n] <= D / 2 and y3[j+n] <= 350) or (y3[j+n] - 10 * tg2[j+n] - 350 <= D / 2 and y3[j+n] >= 350):
+                    ray2[j+n] = Line(Point(l + 10, y2[j+n]), Point(l + d + 10, y3[j+n]))
+                    ray2[j+n].setOutline("red")
+                    ray2[j+n].draw(w)
+                    y4[j+n] = 350 + round(f2 * tg2[j+n])
+                    ray3[j+n] = Line(Point(l + d + 10, y3[j+n]), Point(l + d + f2 + 10, y4[j+n]))
+                    ray3[j+n].setOutline("red")
+                    ray3[j+n].draw(w)
+                else:
+                    ray2[j+n] = Line(Point(l + 10, y2[j+n]), Point(l + d, y3[j+n] - 10 * tg2[j+n]))
+                    ray2[j+n].setOutline("red")
+                    ray2[j+n].draw(w)
+        else:
+            ttop = False
+            for j in range(-n, n + 1):
+                if is_pressed('q'):
+                    w.close()
+                ray[j+n].undraw()
+                ray2[j+n].undraw()
+                ray3[j+n].undraw()
+
     if is_pressed('b'):
-        bbot = True
-    if ttop:
-        for j in range(-n, n):
-            # y2[j] = j*150/n
-            y2 = round(350 + j * r1 / n)
-            ray = Line(Point(10, 330 - h), Point(l + 10, y2))
-            ray.setOutline("red")
-            ray.draw(w)
-            tg = (330 - h - y2) / l
-            y3 = 350 - f1 * tg - round((350 - y2 - f1 * tg) * f1/(f1+d))
-            ray2 = Line(Point(l + 10, y2), Point(l + d + 10, y3))
-            ray2.setOutline("red")
-            ray2.draw(w)
-            tg2 = (y3 - y2) / f2
-            y4 = round(350 + f2 * tg2)
-            ray3 = Line(Point(l + d + 10, y3), Point(l + d + f2 + 10, y4))
-            ray3.setOutline("red")
-            ray3.draw(w)
-    if not bbot:
-        for j in range(-n, n):
-            # y2[j] = j*150/n
-            y2 = round(350 + j * 150 / n)
-            ray = Line(Point(10, 350), Point(1000, y2))
-            ray.setOutline("green")
-            ray.draw(w)
-            tg = (350 - y2) / 990
-            y3 = 350 - 300 * tg - round((350 - y2 - 300 * tg) * 0, 6)  # F1 = 300, 0,6 = F1/(F1+d)
-            ray2 = Line(Point(1000, y2), Point(1200, y3))
-            ray2.setOutline("green")
-            ray2.draw(w)
-            tg2 = (y3 - y2) / 100
-            y4 = round(350 + 100 * tg2)
-            ray3 = Line(Point(1200, y3), Point(1300, y4))
-            ray3.setOutline("green")
-            ray3.draw(w)
-    if is_pressed('q'):
-        mai = False
-        w.close()
-    w.getMouse()
-    w.close()
+        if not bbot:
+            bbot = True
+            for j in range(-n, n + 1):
+                if is_pressed('q'):
+                    w.close()
+                y2[j+3*n+1] = round(350 + j * r1 / n)
+                ray[j+3*n+1] = Line(Point(10, 350), Point(l + 10, y2[j+3*n+1]))
+                ray[j+3*n+1].setOutline("green")
+                ray[j+3*n+1].draw(w)
+                tg[j+3*n+1] = (350 - y2[j+3*n+1]) / l
+                y3[j+3*n+1] = 350 - round(f1 * tg[j+3*n+1]) - round((350 - y2[j+3*n+1] - f1 * tg[j+3*n+1]) * (f1 - d) / f1)
+                tg2[j+3*n+1] = (y3[j+3*n+1] - y2[j+3*n+1]) / d
+                if (350 - y3[j+3*n+1] + 10 * tg2[j+3*n+1] <= D / 2 and y3[j+3*n+1] <= 350) or (y3[j+3*n+1] - 10 * tg2[j+3*n+1] - 350 <= D / 2 and y3[j+3*n+1] >= 350):
+                    ray2[j+3*n+1] = Line(Point(l + 10, y2[j+3*n+1]), Point(l + d + 10, y3[j+3*n+1]))
+                    ray2[j+3*n+1].setOutline("green")
+                    ray2[j+3*n+1].draw(w)
+                    y4[j+3*n+1] = 350 + round(f2 * tg2[j+3*n+1])
+                    ray3[j+3*n+1] = Line(Point(l + d + 10, y3[j+3*n+1]), Point(l + d + f2 + 10, y4[j+3*n+1]))
+                    ray3[j+3*n+1].setOutline("green")
+                    ray3[j+3*n+1].draw(w)
+                else:
+                    ray2[j+3*n+1] = Line(Point(l + 10, y2[j+3*n+1]), Point(l + d, y3[j+3*n+1] - 10 * tg2[j+3*n+1]))
+                    ray2[j+3*n+1].setOutline("green")
+                    ray2[j+3*n+1].draw(w)
+        else:
+            bbot = False
+            for j in range(-n, n + 1):
+                if is_pressed('q'):
+                    w.close()
+                ray[j+3*n+1].undraw()
+                ray2[j+3*n+1].undraw()
+                ray3[j+3*n+1].undraw()
