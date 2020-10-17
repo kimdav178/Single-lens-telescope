@@ -1,19 +1,22 @@
 from graphics import *
 from keyboard import *
 
+class Parameters
+    def __init__(self):
+        self.n = 50
+        self.h = 300
+        self.l = 1000
+        self.d = 200
+        self.f1 = 400
+        self.f2 = 100
+        self.r1 = 300
+        self.r2 = 300
+        self.D = 100
+
 # Variables
 ttop = False
 bbot = False
 diaf = False
-n = 50
-h = 300
-l = 1000
-d = 200
-f1 = 400
-f2 = 100
-r1 = 300
-r2 = 300
-D = 100
 ray = []
 ray2 = []
 ray3 = []
@@ -83,7 +86,7 @@ obj4.draw(w)
 mat = Line(Point(10 + l + d + f2, 350 - r2), Point(10 + l + d + f2, 350 + r2))
 mat.draw(w)
 
-# Diaframe
+# Diaphragm
 diaft = Line(Point(l + d, 350 - r1), Point(l + d, 350 - round(D / 2)))
 diafb = Line(Point(l + d, 350 + round(D / 2)), Point(l + d, 350 + r1))
 
@@ -120,20 +123,20 @@ while True:
             if is_pressed('Esc'):
                 w.close()
                 exit(0)
-            if is_pressed(KEY_UP) and h < 335:
+            if is_pressed(KEY_UP) and h < 339:
                 arrow.undraw()
                 top.undraw()
-                h = h + 5
+                h = h + 1
                 top = Line(Point(10, 340 - h), Point(10, 330 - h))
                 arrow = Line(Point(10, 340 - h), Point(10, 340))
                 arrow.setOutline("Red")
                 top.setOutline("Red")
                 arrow.draw(w)
                 top.draw(w)
-            if is_pressed(KEY_DOWN) and h > 5:
+            if is_pressed(KEY_DOWN) and h > 1:
                 arrow.undraw()
                 top.undraw()
-                h = h - 5
+                h = h - 1
                 top = Line(Point(10, 340 - h), Point(10, 330 - h))
                 arrow = Line(Point(10, 340 - h), Point(10, 340))
                 arrow.setOutline("Red")
@@ -239,6 +242,86 @@ while True:
                                                    Point(l + d, y3[j + 3 * n + 1] - 10 * tg2[j + 3 * n + 1]))
                         ray2[j + 3 * n + 1].setOutline("green")
                         ray2[j + 3 * n + 1].draw(w)
+
+    if is_pressed('l'):
+        if ttop:
+            ttop = False
+            for j in range(-n, n + 1):
+                if is_pressed('Esc'):
+                    w.close()
+                    exit(0)
+                ray[j + n].undraw()
+                ray2[j + n].undraw()
+                ray3[j + n].undraw()
+        if bbot:
+            bbot = False
+            for j in range(-n, n + 1):
+                if is_pressed('Esc'):
+                    w.close()
+                    exit(0)
+                ray[j + 3 * n + 1].undraw()
+                ray2[j + 3 * n + 1].undraw()
+                ray3[j + 3 * n + 1].undraw()
+        while True:
+            if is_pressed('Esc'):
+                w.close()
+                exit(0)
+            if is_pressed('left') or is_pressed('right'):
+                if is_pressed('left') and l > 0:
+                    l = l - 1
+                if is_pressed('right') and l + d + f2 < 1350:
+                    l = l + 1
+                lens.undraw()
+                lens1.undraw()
+                lens2.undraw()
+                lens3.undraw()
+                lens4.undraw()
+                obj.undraw()
+                obj1.undraw()
+                obj2.undraw()
+                obj3.undraw()
+                obj4.undraw()
+                mat.undraw()
+                if diaf:
+                    diafb.undraw()
+                    diaft.undraw()
+
+                # Focusing lens
+                lens = Line(Point(10 + l, 350 - r1), Point(10 + l, 350 + r1))
+                lens.draw(w)
+                lens1 = Line(Point(l, 360 - r1), Point(10 + l, 350 - r1))
+                lens1.draw(w)
+                lens2 = Line(Point(l + 20, 360 - r1), Point(10 + l, 350 - r1))
+                lens2.draw(w)
+                lens3 = Line(Point(l, 340 + r1), Point(10 + l, 350 + r1))
+                lens3.draw(w)
+                lens4 = Line(Point(l + 20, 340 + r1), Point(10 + l, 350 + r1))
+                lens4.draw(w)
+
+                # Camera's objective
+                obj = Line(Point(l + d + 10, 350 - r2), Point(l + d + 10, 350 + r2))
+                obj.draw(w)
+                obj1 = Line(Point(l + d, 360 - r2), Point(l + d + 10, 350 - r2))
+                obj1.draw(w)
+                obj2 = Line(Point(l + d + 20, 360 - r2), Point(l + d + 10, 350 - r2))
+                obj2.draw(w)
+                obj3 = Line(Point(l + d, 340 + r2), Point(l + d + 10, 350 + r2))
+                obj3.draw(w)
+                obj4 = Line(Point(l + d + 20, 340 + r2), Point(l + d + 10, 350 + r2))
+                obj4.draw(w)
+
+                # Camera's matrix
+                mat = Line(Point(10 + l + d + f2, 350 - r2), Point(10 + l + d + f2, 350 + r2))
+                mat.draw(w)
+
+                # Diaphragm
+                if diaf:
+                    diaft = Line(Point(l + d, 350 - r1), Point(l + d, 350 - round(D / 2)))
+                    diaft.draw(w)
+                    diafb = Line(Point(l + d, 350 + round(D / 2)), Point(l + d, 350 + r1))
+                    diafb.draw(w)
+            if is_pressed('l'):
+                break
 
     if is_pressed('t'):
         if not ttop:
