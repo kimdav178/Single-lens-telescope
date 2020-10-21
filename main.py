@@ -1,22 +1,19 @@
 from graphics import *
 from keyboard import *
 
-class Parameters
-    def __init__(self):
-        self.n = 50
-        self.h = 300
-        self.l = 1000
-        self.d = 200
-        self.f1 = 400
-        self.f2 = 100
-        self.r1 = 300
-        self.r2 = 300
-        self.D = 100
-
 # Variables
 ttop = False
 bbot = False
 diaf = False
+n = 50
+h = 300
+l = 1000
+d = 200
+f1 = 400
+f2 = 100
+r1 = 300
+r2 = 300
+D = 100
 ray = []
 ray2 = []
 ray3 = []
@@ -143,7 +140,7 @@ while True:
                 top.setOutline("Red")
                 arrow.draw(w)
                 top.draw(w)
-            if is_pressed('h'):
+            if is_pressed('Enter'):
                 arrow.undraw()
                 arrow.setOutline("Blue")
                 arrow.draw(w)
@@ -244,6 +241,47 @@ while True:
                         ray2[j + 3 * n + 1].draw(w)
 
     if is_pressed('l'):
+        if diaf:
+            diaft.undraw()
+            diaft.setOutline("Red")
+            diaft.draw(w)
+            diafb.undraw()
+            diafb.setOutline("Red")
+            diafb.draw(w)
+        obj.undraw()
+        obj.setOutline("Red")
+        obj.draw(w)
+        obj1.undraw()
+        obj1.setOutline("Red")
+        obj1.draw(w)
+        obj2.undraw()
+        obj2.setOutline("Red")
+        obj2.draw(w)
+        obj3.undraw()
+        obj3.setOutline("Red")
+        obj3.draw(w)
+        obj4.undraw()
+        obj4.setOutline("Red")
+        obj4.draw(w)
+        lens.undraw()
+        lens.setOutline("Red")
+        lens.draw(w)
+        lens1.undraw()
+        lens1.setOutline("Red")
+        lens1.draw(w)
+        lens2.undraw()
+        lens2.setOutline("Red")
+        lens2.draw(w)
+        lens3.undraw()
+        lens3.setOutline("Red")
+        lens3.draw(w)
+        lens4.undraw()
+        lens4.setOutline("Red")
+        lens4.draw(w)
+        mat.undraw()
+        mat.setOutline("Red")
+        mat.draw(w)
+
         if ttop:
             ttop = False
             for j in range(-n, n + 1):
@@ -288,39 +326,92 @@ while True:
 
                 # Focusing lens
                 lens = Line(Point(10 + l, 350 - r1), Point(10 + l, 350 + r1))
+                lens.setOutline("Red")
                 lens.draw(w)
                 lens1 = Line(Point(l, 360 - r1), Point(10 + l, 350 - r1))
+                lens1.setOutline("Red")
                 lens1.draw(w)
                 lens2 = Line(Point(l + 20, 360 - r1), Point(10 + l, 350 - r1))
+                lens2.setOutline("Red")
                 lens2.draw(w)
                 lens3 = Line(Point(l, 340 + r1), Point(10 + l, 350 + r1))
+                lens3.setOutline("Red")
                 lens3.draw(w)
                 lens4 = Line(Point(l + 20, 340 + r1), Point(10 + l, 350 + r1))
+                lens4.setOutline("Red")
                 lens4.draw(w)
 
                 # Camera's objective
                 obj = Line(Point(l + d + 10, 350 - r2), Point(l + d + 10, 350 + r2))
+                obj.setOutline("Red")
                 obj.draw(w)
                 obj1 = Line(Point(l + d, 360 - r2), Point(l + d + 10, 350 - r2))
+                obj1.setOutline("Red")
                 obj1.draw(w)
                 obj2 = Line(Point(l + d + 20, 360 - r2), Point(l + d + 10, 350 - r2))
+                obj2.setOutline("Red")
                 obj2.draw(w)
                 obj3 = Line(Point(l + d, 340 + r2), Point(l + d + 10, 350 + r2))
+                obj3.setOutline("Red")
                 obj3.draw(w)
                 obj4 = Line(Point(l + d + 20, 340 + r2), Point(l + d + 10, 350 + r2))
+                obj4.setOutline("Red")
                 obj4.draw(w)
 
                 # Camera's matrix
                 mat = Line(Point(10 + l + d + f2, 350 - r2), Point(10 + l + d + f2, 350 + r2))
+                mat.setOutline("Red")
                 mat.draw(w)
 
                 # Diaphragm
                 if diaf:
                     diaft = Line(Point(l + d, 350 - r1), Point(l + d, 350 - round(D / 2)))
+                    diaft.setOutline("Red")
                     diaft.draw(w)
                     diafb = Line(Point(l + d, 350 + round(D / 2)), Point(l + d, 350 + r1))
+                    diafb.setOutline("Red")
                     diafb.draw(w)
-            if is_pressed('l'):
+            if is_pressed('Enter'):
+                if diaf:
+                    diaft.undraw()
+                    diaft.setOutline("Black")
+                    diaft.draw(w)
+                    diafb.undraw()
+                    diafb.setOutline("Black")
+                    diafb.draw(w)
+                obj.undraw()
+                obj.setOutline("Black")
+                obj.draw(w)
+                obj1.undraw()
+                obj1.setOutline("Black")
+                obj1.draw(w)
+                obj2.undraw()
+                obj2.setOutline("Black")
+                obj2.draw(w)
+                obj3.undraw()
+                obj3.setOutline("Black")
+                obj3.draw(w)
+                obj4.undraw()
+                obj4.setOutline("Black")
+                obj4.draw(w)
+                lens.undraw()
+                lens.setOutline("Black")
+                lens.draw(w)
+                lens1.undraw()
+                lens1.setOutline("Black")
+                lens1.draw(w)
+                lens2.undraw()
+                lens2.setOutline("Black")
+                lens2.draw(w)
+                lens3.undraw()
+                lens3.setOutline("Black")
+                lens3.draw(w)
+                lens4.undraw()
+                lens4.setOutline("Black")
+                lens4.draw(w)
+                mat.undraw()
+                mat.setOutline("Black")
+                mat.draw(w)
                 break
 
     if is_pressed('t'):
@@ -377,7 +468,7 @@ while True:
                 tg2[j + 3 * n + 1] = (y3[j + 3 * n + 1] - y2[j + 3 * n + 1]) / d
                 if (350 - y3[j + 3 * n + 1] + 10 * tg2[j + 3 * n + 1] <= D / 2 and y3[j + 3 * n + 1] <= 350) or (
                         y3[j + 3 * n + 1] - 10 * tg2[j + 3 * n + 1] - 350 <= D / 2 and y3[j + 3 * n + 1] >= 350) or (
-                not diaf):
+                        not diaf):
                     ray2[j + 3 * n + 1] = Line(Point(l + 10, y2[j + 3 * n + 1]), Point(l + d + 10, y3[j + 3 * n + 1]))
                     ray2[j + 3 * n + 1].setOutline("green")
                     ray2[j + 3 * n + 1].draw(w)

@@ -8,6 +8,12 @@ w = GraphWin("Telescope", 1368, 720)
 w.setBackground("white")
 line.draw(w)
 
+arr = []
+for i in range(5):
+    arr.append(Line(Point(i*100, i*50), Point(100 + i*100, 100+i*100)))
+
+arr.draw(w)
+
 while True:
     if is_pressed('Esc'):
         w.close()
