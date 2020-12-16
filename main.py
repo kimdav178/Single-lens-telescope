@@ -1,10 +1,21 @@
 from graphics import *
 from keyboard import *
 
+
 # Variables
 ttop = False
 bbot = False
 diaf = False
+#n = 10                  #Число лучей
+#h = 20                  #Высота объекта
+#l = (h + 20) * 30       #Расстояние от объекта до линзы
+#d = (h + 20) * 3 - 10   #Расстояние от линзы до фотоаппарата
+#f1 = (h + 20) * 3       #Фокусное расстояние линзы
+#f2 = round(h/2) + 10    #Фокусное расстояние фотоаппарата
+#r1 = round(h/2) + 10    #Радиус линзы
+#r2 = round(h/2) + 10    #Радиус объектива
+#D = round(h/10)         #Диаметр диафарагмы
+
 n = 50
 h = 300
 l = 1000
@@ -13,7 +24,8 @@ f1 = 400
 f2 = 100
 r1 = 300
 r2 = 300
-D = 100
+D = 20
+
 ray = []
 ray2 = []
 ray3 = []
@@ -33,7 +45,7 @@ for i in range(4 * n + 2):
     y4.append(1.0)
 
 # Window settings
-w = GraphWin("Telescope", 1368, 720)
+w = GraphWin("Telescope", 1366, 768, autoflush=True)
 w.setBackground("white")
 
 # Main optical axis
@@ -84,8 +96,17 @@ mat = Line(Point(10 + l + d + f2, 350 - r2), Point(10 + l + d + f2, 350 + r2))
 mat.draw(w)
 
 # Diaphragm
-diaft = Line(Point(l + d, 350 - r1), Point(l + d, 350 - round(D / 2)))
-diafb = Line(Point(l + d, 350 + round(D / 2)), Point(l + d, 350 + r1))
+diaft = Line(Point(l + d, 0), Point(l + d, 350 - round(D / 2)))
+diafb = Line(Point(l + d, 350 + round(D / 2)), Point(l + d, 768))
+
+# No lens case
+ray0 = Line(Point(10, 350), Point(10 + l + d + f2, 350))
+ray0.setOutline("Green")
+ray1 = Line(Point(10, 350 - h - 20), Point(10 + l + d + f2, 330 - h + round((l + d + f2) * (h + 20)/(l+d))))
+ray1.setOutline("Red")
+imag = Line(Point(10 + l + d + f2, 350), Point(10 + l + d + f2, 330 - h + round((l + d + f2) * (h + 20)/(l+d))))
+imag.setOutline("Blue")
+imag.setWidth(3)
 
 # Main loop
 while True:
@@ -182,9 +203,9 @@ while True:
                     ray3[j + 3 * n + 1].draw(w)
         else:
             diaf = True
-            diaft = Line(Point(l + d, 350 - r1), Point(l + d, 350 - round(D / 2)))
+            diaft = Line(Point(l + d, 0), Point(l + d, 350 - round(D / 2)))
             diaft.draw(w)
-            diafb = Line(Point(l + d, 350 + round(D / 2)), Point(l + d, 350 + r1))
+            diafb = Line(Point(l + d, 350 + round(D / 2)), Point(l + d, 768))
             diafb.draw(w)
             if ttop:
                 for j in range(-n, n + 1):
@@ -365,10 +386,10 @@ while True:
 
                 # Diaphragm
                 if diaf:
-                    diaft = Line(Point(l + d, 350 - r1), Point(l + d, 350 - round(D / 2)))
+                    diaft = Line(Point(l + d, 0), Point(l + d, 350 - round(D / 2)))
                     diaft.setOutline("Red")
                     diaft.draw(w)
-                    diafb = Line(Point(l + d, 350 + round(D / 2)), Point(l + d, 350 + r1))
+                    diafb = Line(Point(l + d, 350 + round(D / 2)), Point(l + d, 768))
                     diafb.setOutline("Red")
                     diafb.draw(w)
             if is_pressed('Enter'):
@@ -491,3 +512,65 @@ while True:
                 ray[j + 3 * n + 1].undraw()
                 ray2[j + 3 * n + 1].undraw()
                 ray3[j + 3 * n + 1].undraw()
+
+    if is_pressed('o'):
+        lens.undraw()
+        lens1.undraw()
+        lens2.undraw()
+        lens3.undraw()
+        lens4.undraw()
+        if ttop:
+            ttop = False
+            for j in range(-n, n + 1):
+                if is_pressed('Esc'):
+                    w.close()
+                    exit(0)
+                ray[j + n].undraw()
+                ray2[j + n].undraw()
+                ray3[j + n].undraw()
+        if bbot:
+            bbot = False
+            for j in range(-n, n + 1):
+                if is_pressed('Esc'):
+                    w.close()
+                    exit(0)
+                ray[j + 3 * n + 1].undraw()
+                ray2[j + 3 * n + 1].undraw()
+                ray3[j + 3 * n + 1].undraw()
+        ray0 = Line(Point(10, 350), Point(10 + l + d + f2, 350))
+        ray0.setOutline("Green")
+        ray0.draw(w)
+        ray1 = Line(Point(10, 350 - h - 20),
+                    Point(10 + l + d + f2, 330 - h + round((l + d + f2) * (h + 20) / (l + d))))
+        ray1.setOutline("Red")
+        ray1.draw(w)
+        imag = Line(Point(10 + l + d + f2, 350),
+                    Point(10 + l + d + f2, 330 - h + round((l + d + f2) * (h + 20) / (l + d))))
+        imag.setOutline("Blue")
+        imag.setWidth(3)
+        imag.draw(w)
+        while True:
+            if is_pressed('Esc'):
+                w.close()
+                exit(0)
+            if is_pressed('shift + d'):
+                if diaf:
+                    diaf = False
+                    diaft.undraw()
+                    diafb.undraw()
+                else:
+                    diaf = True
+                    diaft = Line(Point(l + d, 0), Point(l + d, 350 - round(D / 2)))
+                    diaft.draw(w)
+                    diafb = Line(Point(l + d, 350 + round(D / 2)), Point(l + d, 768))
+                    diafb.draw(w)
+            if is_pressed('Enter'):
+                ray0.undraw()
+                ray1.undraw()
+                imag.undraw()
+                lens.draw(w)
+                lens1.draw(w)
+                lens2.draw(w)
+                lens3.draw(w)
+                lens4.draw(w)
+                break
