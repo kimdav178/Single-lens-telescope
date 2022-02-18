@@ -1,30 +1,32 @@
 from graphics import *
 from keyboard import *
 
-
 # Variables
 ttop = False
 bbot = False
 diaf = False
-#n = 10                  #Число лучей
-#h = 20                  #Высота объекта
-#l = (h + 20) * 30       #Расстояние от объекта до линзы
-#d = (h + 20) * 3 - 10   #Расстояние от линзы до фотоаппарата
-#f1 = (h + 20) * 3       #Фокусное расстояние линзы
-#f2 = round(h/2) + 10    #Фокусное расстояние фотоаппарата
-#r1 = round(h/2) + 10    #Радиус линзы
-#r2 = round(h/2) + 10    #Радиус объектива
-#D = round(h/10)         #Диаметр диафарагмы
 
+n = 10                  # Число лучей
+h = 20                  # Высота объекта
+l = (h + 20) * 30       # Расстояние от объекта до линзы
+d = (h + 20) * 3 - 10   # Расстояние от линзы до фотоаппарата
+f1 = (h + 20) * 3       # Фокусное расстояние линзы
+f2 = round(h/2) + 10    # Фокусное расстояние фотоаппарата
+r1 = round(h/2) + 10    # Радиус линзы
+r2 = round(h/2) + 10    # Радиус объектива
+D = round(h/10)         # Диаметр диафарагмы
+
+"""
 n = 50
-h = 300
-l = 1000
-d = 200
-f1 = 400
-f2 = 100
-r1 = 300
-r2 = 300
-D = 20
+h = 10
+l = 900
+d = 170
+f1 = 300
+f2 = 3.93
+r1 = 30
+r2 = 2
+D = 10
+"""
 
 ray = []
 ray2 = []
@@ -102,9 +104,9 @@ diafb = Line(Point(l + d, 350 + round(D / 2)), Point(l + d, 768))
 # No lens case
 ray0 = Line(Point(10, 350), Point(10 + l + d + f2, 350))
 ray0.setOutline("Green")
-ray1 = Line(Point(10, 350 - h - 20), Point(10 + l + d + f2, 330 - h + round((l + d + f2) * (h + 20)/(l+d))))
+ray1 = Line(Point(10, 350 - h - 20), Point(10 + l + d + f2, 330 - h + round((l + d + f2) * (h + 20) / (l + d))))
 ray1.setOutline("Red")
-imag = Line(Point(10 + l + d + f2, 350), Point(10 + l + d + f2, 330 - h + round((l + d + f2) * (h + 20)/(l+d))))
+imag = Line(Point(10 + l + d + f2, 350), Point(10 + l + d + f2, 330 - h + round((l + d + f2) * (h + 20) / (l + d))))
 imag.setOutline("Blue")
 imag.setWidth(3)
 
